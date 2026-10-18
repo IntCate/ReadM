@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-18T05:42:39.912Z",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+    "hardwareConcurrency": 10,
+    "viewport": [
+      1500,
+      1050
+    ]
+  },
+  "fixture": "100-measures.pianoscore.json",
+  "commands": 100,
+  "buildMode": "production",
+  "baseURL": "http://127.0.0.1:5174",
+  "method": "真实音高修改按钮点击至后两个 animationFrame；热态、单机结果",
+  "medianMs": 33.39999997615814,
+  "p95Ms": 34.19999998807907,
+  "maxMs": 34.30000001192093,
+  "targetMs": 100
+}

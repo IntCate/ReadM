@@ -1,0 +1,184 @@
+{
+  "format": "piano-score-project",
+  "schemaVersion": 1,
+  "projectId": "4a16f5c6-43f2-48f9-b9cd-b0acda518c1d",
+  "revision": 2,
+  "updatedAt": "2026-10-18T05:31:14.756Z",
+  "score": {
+    "id": "61047835-aa33-485d-b489-5586cec245de",
+    "title": "弱起",
+    "parts": [
+      {
+        "id": "piano",
+        "instrument": "piano",
+        "staves": [
+          {
+            "id": "staff-right",
+            "defaultClef": "treble",
+            "defaultHand": "right"
+          },
+          {
+            "id": "staff-left",
+            "defaultClef": "bass",
+            "defaultHand": "left"
+          }
+        ],
+        "voices": [
+          {
+            "id": "voice-right",
+            "partId": "piano",
+            "defaultStaffId": "staff-right"
+          },
+          {
+            "id": "voice-left",
+            "partId": "piano",
+            "defaultStaffId": "staff-left"
+          }
+        ]
+      }
+    ],
+    "measures": [
+      {
+        "id": "dc8a45a5-e6de-479e-ac39-165f8f6e986d",
+        "order": 0,
+        "meter": [
+          4,
+          4
+        ],
+        "key": 0,
+        "minor": false,
+        "actualLength": {
+          "n": 1,
+          "d": 1
+        }
+      },
+      {
+        "id": "0ad9ee1b-8a75-476c-a0de-32ca6cdd732a",
+        "order": 1,
+        "meter": [
+          4,
+          4
+        ],
+        "key": 0,
+        "minor": false,
+        "actualLength": {
+          "n": 4,
+          "d": 1
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": "0212d153-372c-4609-a39a-7d2009b163e8",
+        "measureId": "0ad9ee1b-8a75-476c-a0de-32ca6cdd732a",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 4,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 1,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "09d477b1-df95-4600-8169-fc09ccffee8c",
+        "measureId": "0ad9ee1b-8a75-476c-a0de-32ca6cdd732a",
+        "staffId": "staff-left",
+        "voiceId": "voice-left",
+        "hand": "left",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 4,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 1,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "fde64a26-8aad-4ba8-a66e-011585a390ee",
+        "measureId": "dc8a45a5-e6de-479e-ac39-165f8f6e986d",
+        "staffId": "staff-left",
+        "voiceId": "voice-left",
+        "hand": "left",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 1,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 4,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "17a16de0-36c7-45f2-aced-bd38f77bba85",
+        "measureId": "dc8a45a5-e6de-479e-ac39-165f8f6e986d",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 1,
+          "d": 1
+        },
+        "kind": "chord",
+        "written": {
+          "base": 4,
+          "dots": 0
+        },
+        "notes": [
+          {
+            "id": "3ed98e87-2ae7-4dcf-a26e-27f651b060e6",
+            "pitch": {
+              "step": "C",
+              "alter": 0,
+              "octave": 4
+            }
+          }
+        ]
+      }
+    ],
+    "ties": [],
+    "slurs": [],
+    "tuplets": [],
+    "tempoMap": [
+      {
+        "measureId": "dc8a45a5-e6de-479e-ac39-165f8f6e986d",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "quarterBpm": 88
+      }
+    ],
+    "repeatRegions": [],
+    "notationPolicy": {
+      "jianpuMode": "relative-major",
+      "referencePitch": "C4"
+    }
+  }
+}

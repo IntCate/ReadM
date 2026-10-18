@@ -1,0 +1,12 @@
+import {type Project,validate} from '../core/score';
+export type Saved={project:Project;previousProject?:Project;token:string;savedAt:string};
+export type Summary={id:string;title:string;count:number;updatedAt:string};
+const DB='piano-studio-v1';
+export class ProjectRepository{
+  private db:IDBDatabase|null=null;
+  async open(){if(this.db)return this.db;this.db=await new Promise<IDBDatabase>((resolve,reject)=>{const request=indexedDB.open(DB,1);request.onupgradeneeded=()=>request.result.createObjectStore('projects',{keyPath:'projectId'});request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(Error('无法打开本地存储，请检查浏览器隐私设置'));});return this.db;}
+  async get(projectId:string):Promise<Saved|undefined>{const db=await this.open();return new Promise((resolve,reject)=>{const r=db.transaction('projects').objectStore('projects').get(projectId);r.onsuccess=()=>{const row=r.result;if(row){try{validate(row.project);}catch(e){reject(e);return;}}resolve(row);};r.onerror=()=>reject(r.error);});}
+  async list():Promise<Summary[]>{const db=await this.open();return new Promise((resolve,reject)=>{const r=db.transaction('projects').objectStore('projects').getAll();r.onsuccess=()=>resolve(r.result.map((row:Saved)=>({id:row.project.projectId,title:row.project.score.title,count:row.project.score.measures.length,updatedAt:row.savedAt})).sort((a:Summary,b:Summary)=>b.updatedAt.localeCompare(a.updatedAt)));r.onerror=()=>reject(r.error);});}
+  async save(project:Project,expectedToken:string|null):Promise<string>{validate(project);const db=await this.open();return new Promise((resolve,reject)=>{const tx=db.transaction('projects','readwrite'),store=tx.objectStore('projects');const get=store.get(project.projectId);let failure='';const token=crypto.randomUUID();get.onsuccess=()=>{const existing=get.result as Saved|undefined;if((existing?.token??null)!==expectedToken){failure='此项目已在其他标签页更新，请导出当前版本或另存副本';tx.abort();return;}try{store.put({projectId:project.projectId,project,previousProject:existing?.project??existing?.previousProject,token,savedAt:new Date().toISOString()});}catch{failure='本地保存失败，可能存储空间不足，请导出备份';tx.abort();}};tx.oncomplete=()=>resolve(token);tx.onabort=()=>reject(Error(failure||'本地保存失败，可能存储空间不足，请导出备份'));tx.onerror=()=>{/* onabort provides final error */};});}
+  async remove(projectId:string){const db=await this.open();return new Promise<void>((resolve,reject)=>{const tx=db.transaction('projects','readwrite');tx.objectStore('projects').delete(projectId);tx.oncomplete=()=>resolve();tx.onabort=()=>reject(tx.error);});}
+}

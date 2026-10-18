@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import {chromium} from 'playwright';
+const baseURL=process.env.PIANO_TEST_URL??'http://127.0.0.1:5173';
+const executablePath=process.env.PIANO_CHROMIUM_PATH;
+const browser=await chromium.launch({headless:true,...(executablePath?{executablePath}:{})});
+const context=await browser.newContext({viewport:{width:1500,height:1050},acceptDownloads:true});
+const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+let passed=0;
+const check=(name)=>{passed++;console.log(`PASS ${name}`);};
+async function saved(){await page.locator('.save-indicator').filter({hasText:'已保存至本机'}).waitFor({timeout:10000});}
+async function exported(){const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出项目',exact:true}).click();const file=await download;return JSON.parse(await fs.readFile(await file.path(),'utf8'));}
+try{
+  await page.goto(baseURL);await saved();assert.equal(await page.getByText('排版失败',{exact:false}).count(),0);assert.ok(await page.locator('.vex-score svg').count()>0);check('双手五线谱真实渲染且无页面异常');
+  await page.getByRole('button',{name:'新建乐谱',exact:false}).click();const dialog=page.getByRole('dialog',{name:'新建乐谱'});await dialog.getByLabel('乐谱名称').fill('浏览器回归测试');await dialog.getByLabel('小节数').fill('2');await dialog.getByRole('button',{name:'创建双手乐谱'}).click();await saved();let p=await exported();assert.equal(p.score.measures.length,2);check('新建双手谱并持久化');
+  await page.getByRole('button',{name:'简谱',exact:false}).click();await page.getByRole('button',{name:'左手',exact:true}).click();await page.getByRole('button',{name:'输入C4',exact:true}).click();await saved();p=await exported();let notes=p.score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes);assert.equal(notes.length,1);assert.equal(notes[0].pitch.step,'C');assert.ok(p.score.events.filter(e=>e.hand==='right').every(e=>e.kind==='rest'));check('在简谱输入左手，右手语义不变');
+  await page.getByRole('button',{name:'第1小节左手第1拍音符',exact:true}).click();await page.getByRole('button',{name:'和弦',exact:true}).click();await page.getByRole('button',{name:'输入E4',exact:true}).click();await saved();p=await exported();notes=p.score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes);assert.equal(notes.length,2);check('左手简谱和弦录入');
+  await page.getByLabel('修改音名',{exact:true}).selectOption('F');await page.getByRole('button',{name:'应用音高',exact:true}).click();await saved();p=await exported();assert.equal(p.score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes)[0].pitch.step,'F');const semantic=JSON.stringify(p.score);await page.getByRole('button',{name:'五线谱',exact:false}).click();assert.equal(await page.getByText('排版失败',{exact:false}).count(),0);assert.equal(JSON.stringify((await exported()).score),semantic);check('简谱修改音高后切换五线谱，语义完全一致');
+  await page.getByRole('button',{name:'撤销',exact:true}).click();await saved();assert.equal((await exported()).score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes)[0].pitch.step,'C');await page.getByRole('button',{name:'重做',exact:true}).click();await saved();assert.equal((await exported()).score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes)[0].pitch.step,'F');check('撤销和重做恢复完整音乐事务');
+  await page.reload();await saved();assert.equal(await page.getByLabel('乐谱标题').inputValue(),'浏览器回归测试');assert.equal((await exported()).score.events.filter(e=>e.hand==='left').flatMap(e=>e.notes)[0].pitch.step,'F');check('刷新后恢复已保存的双手谱');
+  const second=await context.newPage();await second.goto(baseURL);await second.getByText('此项目正在另一标签页中编辑，本页只读。',{exact:false}).waitFor();assert.equal(await second.getByRole('button',{name:'输入C4',exact:true}).isDisabled(),true);await second.close();check('同项目多标签页单写者保护');
+  await page.getByRole('button',{name:'播放',exact:true}).click();await page.getByRole('button',{name:'暂停',exact:true}).waitFor();await page.waitForTimeout(350);assert.ok(await page.locator('.playhead').count()>0);await page.getByRole('button',{name:'暂停',exact:true}).click();await page.getByRole('button',{name:'停止并回到开头'}).click();check('播放、光标推进、暂停与停止');
+  await page.evaluate(()=>{window.pianoOriginalPut=IDBObjectStore.prototype.put;IDBObjectStore.prototype.put=function(){throw new DOMException('test quota exceeded','QuotaExceededError');};});
+  await page.getByLabel('乐谱标题').fill('存储失败仍可导出');await page.getByText('本地保存失败，当前修改仍在内存中。',{exact:false}).waitFor();assert.equal((await exported()).score.title,'存储失败仍可导出');
+  await page.evaluate(()=>{IDBObjectStore.prototype.put=window.pianoOriginalPut;delete window.pianoOriginalPut;});await page.getByRole('button',{name:'保存项目',exact:true}).click();await saved();await page.getByLabel('乐谱标题').fill('浏览器回归测试');await saved();check('存储配额故障不误报成功，保留内存并可导出与重试');
+  const bad=JSON.stringify({format:'piano-score-project',schemaVersion:99});await page.locator('input[type=file]').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from(bad)});await page.getByRole('status').filter({hasText:'项目版本不兼容'}).waitFor();assert.equal(await page.getByLabel('乐谱标题').inputValue(),'浏览器回归测试');check('未知文件版本拒绝且保留当前作品');
+  const reimport=await exported();await page.locator('input[type=file]').setInputFiles({name:'copy.pianoscore.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(reimport))});await page.getByRole('status').filter({hasText:'新副本导入'}).waitFor();await saved();const imported=await exported();assert.notEqual(imported.projectId,reimport.projectId);assert.deepEqual(imported.score,reimport.score);check('导出文件可重新导入为无损新副本');
+  await page.getByRole('button',{name:'简谱',exact:false}).click();await page.screenshot({path:'test-results/jianpu.png',fullPage:true});await page.getByRole('button',{name:'五线谱',exact:false}).click();await page.screenshot({path:'test-results/staff.png',fullPage:true});assert.deepEqual(errors,[]);check('双谱截图及无未捕获浏览器错误');
+  for(const name of (await fs.readdir('examples')).filter(name=>name.endsWith('.json'))){await page.locator('input[type=file]').setInputFiles(`examples/${name}`);await saved();await page.getByRole('button',{name:'五线谱',exact:false}).click();assert.equal(await page.getByText('排版失败',{exact:false}).count(),0,`五线谱 ${name}`);await page.getByRole('button',{name:'简谱',exact:false}).click();assert.equal(await page.locator('.jianpu-score').count()>0,true);}
+  assert.deepEqual(errors,[]);check('20 首固定样谱逐份导入、五线谱/简谱渲染及保存');
+  console.log(`Browser checks: ${passed} passed.`);
+}finally{await browser.close();}

@@ -1,0 +1,279 @@
+{
+  "format": "piano-score-project",
+  "schemaVersion": 1,
+  "projectId": "52aec84e-bbca-4077-9862-5d408f3caf03",
+  "revision": 1,
+  "updatedAt": "2026-10-18T05:31:14.755Z",
+  "score": {
+    "id": "274bf90e-2270-4827-9f42-df8e8a0e7661",
+    "title": "三连音",
+    "parts": [
+      {
+        "id": "piano",
+        "instrument": "piano",
+        "staves": [
+          {
+            "id": "staff-right",
+            "defaultClef": "treble",
+            "defaultHand": "right"
+          },
+          {
+            "id": "staff-left",
+            "defaultClef": "bass",
+            "defaultHand": "left"
+          }
+        ],
+        "voices": [
+          {
+            "id": "voice-right",
+            "partId": "piano",
+            "defaultStaffId": "staff-right"
+          },
+          {
+            "id": "voice-left",
+            "partId": "piano",
+            "defaultStaffId": "staff-left"
+          }
+        ]
+      }
+    ],
+    "measures": [
+      {
+        "id": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "order": 0,
+        "meter": [
+          4,
+          4
+        ],
+        "key": 0,
+        "minor": false,
+        "actualLength": {
+          "n": 4,
+          "d": 1
+        }
+      },
+      {
+        "id": "c29395f8-2ada-4d15-80ff-2d8aff76bb90",
+        "order": 1,
+        "meter": [
+          4,
+          4
+        ],
+        "key": 0,
+        "minor": false,
+        "actualLength": {
+          "n": 4,
+          "d": 1
+        }
+      }
+    ],
+    "events": [
+      {
+        "id": "7f494527-0bb3-461a-9c37-1af597f9d743",
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "staffId": "staff-left",
+        "voiceId": "voice-left",
+        "hand": "left",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 4,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 1,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "b59f487e-19f8-4438-a97d-0e44cdd7a3fd",
+        "measureId": "c29395f8-2ada-4d15-80ff-2d8aff76bb90",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 4,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 1,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "6aaa5888-9ceb-4e4e-a0df-6333964bb884",
+        "measureId": "c29395f8-2ada-4d15-80ff-2d8aff76bb90",
+        "staffId": "staff-left",
+        "voiceId": "voice-left",
+        "hand": "left",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 4,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 1,
+          "dots": 0
+        },
+        "notes": []
+      },
+      {
+        "id": "fb219be0-64a5-4315-bda5-4967731ba879",
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 1,
+          "d": 1
+        },
+        "duration": {
+          "n": 3,
+          "d": 1
+        },
+        "kind": "rest",
+        "written": {
+          "base": 2,
+          "dots": 1
+        },
+        "notes": []
+      },
+      {
+        "id": "84cc52f4-4754-4e42-b2b7-728718a35f01",
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "duration": {
+          "n": 1,
+          "d": 3
+        },
+        "kind": "chord",
+        "written": {
+          "base": 8,
+          "dots": 0,
+          "tupletId": "78978985-b4b2-4563-ab0a-d827ba4fc27d"
+        },
+        "notes": [
+          {
+            "id": "1e720fc7-0e21-4244-9c78-16826b2a0031",
+            "pitch": {
+              "step": "C",
+              "alter": 0,
+              "octave": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "5e2e044d-49f3-4e51-acc5-12a8d5e2de21",
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 1,
+          "d": 3
+        },
+        "duration": {
+          "n": 1,
+          "d": 3
+        },
+        "kind": "chord",
+        "written": {
+          "base": 8,
+          "dots": 0,
+          "tupletId": "78978985-b4b2-4563-ab0a-d827ba4fc27d"
+        },
+        "notes": [
+          {
+            "id": "7c292a09-3e63-429c-8e1c-7edea74ac36a",
+            "pitch": {
+              "step": "C",
+              "alter": 0,
+              "octave": 4
+            }
+          }
+        ]
+      },
+      {
+        "id": "292e8af5-0364-47eb-9f07-8327c8a08229",
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "staffId": "staff-right",
+        "voiceId": "voice-right",
+        "hand": "right",
+        "onset": {
+          "n": 2,
+          "d": 3
+        },
+        "duration": {
+          "n": 1,
+          "d": 3
+        },
+        "kind": "chord",
+        "written": {
+          "base": 8,
+          "dots": 0,
+          "tupletId": "78978985-b4b2-4563-ab0a-d827ba4fc27d"
+        },
+        "notes": [
+          {
+            "id": "d2959fd9-e321-47d0-a23c-26a4233bbd93",
+            "pitch": {
+              "step": "C",
+              "alter": 0,
+              "octave": 4
+            }
+          }
+        ]
+      }
+    ],
+    "ties": [],
+    "slurs": [],
+    "tuplets": [
+      {
+        "id": "78978985-b4b2-4563-ab0a-d827ba4fc27d",
+        "eventIds": [
+          "84cc52f4-4754-4e42-b2b7-728718a35f01",
+          "5e2e044d-49f3-4e51-acc5-12a8d5e2de21",
+          "292e8af5-0364-47eb-9f07-8327c8a08229"
+        ],
+        "actual": 3,
+        "normal": 2
+      }
+    ],
+    "tempoMap": [
+      {
+        "measureId": "78c901e7-c229-4f2e-94fa-9a8a0d90d4df",
+        "onset": {
+          "n": 0,
+          "d": 1
+        },
+        "quarterBpm": 88
+      }
+    ],
+    "repeatRegions": [],
+    "notationPolicy": {
+      "jianpuMode": "relative-major",
+      "referencePitch": "C4"
+    }
+  }
+}
